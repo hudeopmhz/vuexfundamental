@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from "vue-router";
+// import store from "@/store";
 import EventList from "../views/EventList.vue";
 import EventLayout from "../views/event/Layout.vue";
 import EventDetails from "../views/event/Details.vue";
 import EventRegister from "../views/event/Register.vue";
 import EventEdit from "../views/event/Edit.vue";
+import EventNew from "../views/event/New.vue";
 import About from "../views/About.vue";
 import NotFound from "../views/NotFound.vue";
 import NetworkError from "../views/NetworkError.vue";
 import NProgress from "nprogress";
-import EventService from "@/services/EventService.js";
-import GStore from "@/store";
+// import EventService from "@/services/EventService.js";
+import GStore from "@/store/flash.js";
+// import store from "@/store";
 
 const routes = [
   {
@@ -30,26 +33,24 @@ const routes = [
     name: "EventLayout",
     component: EventLayout,
     props: true,
-    beforeEnter: (to, from) => {
-      console.log(to);
-      console.log("-------------");
-      console.log(from);
-      EventService.getEvent(to.params.id)
-        .then((response) => {
-          GStore.event = response.data;
-          console.log(response.data);
-        })
-        .catch((error) => {
-          if (error.response && error.response.status == 404) {
-            return {
-              name: "404Resource",
-              params: { resource: "event" },
-            };
-          } else {
-            return { name: "NetworkError" };
-          }
-        });
-    },
+    // beforeEnter: (to) => {
+    // this.$store.dispatch("fetchEvent", to.params.id);
+    // this.$store.dispatch("createEvent", event);
+    // EventService.getEvent(to.params.id)
+    //   .then((response) => {
+    //     store.event = response.data;
+    //   })
+    //   .catch((error) => {
+    //     if (error.response && error.response.status == 404) {
+    //       return {
+    //         name: "404Resource",
+    //         params: { resource: "event" },
+    //       };
+    //     } else {
+    //       return { name: "NetworkError" };
+    //     }
+    //   });
+    // },
 
     children: [
       {
@@ -66,7 +67,12 @@ const routes = [
         path: "edit",
         name: "EventEdit",
         component: EventEdit,
-        meta: { isAuth: true },
+        meta: { isAuth: false },
+      },
+      {
+        path: "new",
+        name: "EventNew",
+        component: EventNew,
       },
     ],
   },

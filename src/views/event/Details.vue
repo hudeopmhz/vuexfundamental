@@ -8,6 +8,14 @@
 
 <script>
 export default {
-  props: ["event"],
+  created() {
+    this.$store.dispatch("fetchEvent", this.$route.params.id);
+  },
+
+  computed: {
+    event() {
+      return this.$store.state.event;
+    },
+  },
 };
 </script>

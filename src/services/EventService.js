@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const apiClient = axios.create({
-  baseURL: "https://my-json-server.typicode.com/hudeopmhz/database",
-  // baseURL: "http://localhost:3000/",
+  baseURL: process.env.VUE_APP_BASE_URI,
   withCredentials: false,
   headers: {
     Accept: "application/json",
@@ -11,10 +10,16 @@ const apiClient = axios.create({
 });
 
 export default {
-  getEvents(perPage, page) {
-    return apiClient.get("/events/?_limit=" + perPage + "&_page=" + page);
+  // getEvents(perPage, page) {
+  //   return apiClient.get("/events/?_limit=" + perPage + "&_page=" + page);
+  // },
+  getEvents() {
+    return apiClient.get("/events/");
   },
   getEvent(id) {
     return apiClient.get("/events/" + id);
+  },
+  postEvent(event) {
+    return apiClient.post("/events", event);
   },
 };
